@@ -46,7 +46,7 @@ vault_enable_log: false
 vault_enable_logrotate: false
 vault_logrotate_freq: 7
 vault_logrotate_template: vault_logrotate.j2
-vault_exec_output: ''
+vault_exec_output: ""
 
 # ---------------------------------------------------------------------------
 # Vault variables
@@ -60,6 +60,7 @@ vault_iface: "{{ lookup('env','VAULT_IFACE') | default(ansible_default_ipv4.inte
 vault_address: "{{ hostvars[inventory_hostname]['ansible_'+vault_iface]['ipv4']['address'] }}"
 vault_ui: "{{ lookup('env', 'VAULT_UI') | default(true, true) }}"
 vault_port: 8200
+vault_use_config_path: false
 vault_main_config: "{{ vault_config_path }}/vault_main.hcl"
 vault_main_configuration_template: vault_main_configuration.hcl.j2
 vault_listener_localhost_enable: false
@@ -72,21 +73,21 @@ vault_no_proxy: ""
 # ---------------------------------------------------------------------------
 
 vault_tcp_listeners:
-  - vault_address: '{{ vault_address }}'
-    vault_port: '{{ vault_port }}'
-    vault_cluster_address: '{{ vault_cluster_address }}'
+  - vault_address: "{{ vault_address }}"
+    vault_port: "{{ vault_port }}"
+    vault_cluster_address: "{{ vault_cluster_address }}"
     # vault_proxy_protocol_behavior: '{{ vault_proxy_protocol_behavior }}'
     # vault_proxy_protocol_authorized_addrs: '{{ vault_proxy_protocol_authorized_addrs }}'
-    vault_tls_disable: '{{ vault_tls_disable }}'
-    vault_tls_config_path: '{{ vault_tls_config_path }}'
-    vault_tls_cert_file: '{{ vault_tls_cert_file }}'
-    vault_tls_key_file: '{{ vault_tls_key_file }}'
-    vault_tls_ca_file: '{{ vault_tls_ca_file }}'
-    vault_tls_min_version: '{{ vault_tls_min_version }}'
-    vault_tls_cipher_suites: '{{ vault_tls_cipher_suites }}'
-    vault_tls_prefer_server_cipher_suites: '{{ vault_tls_prefer_server_cipher_suites }}'
-    vault_tls_require_and_verify_client_cert: '{{ vault_tls_require_and_verify_client_cert }}'
-    vault_tls_disable_client_certs: '{{ vault_tls_disable_client_certs }}'
+    vault_tls_disable: "{{ vault_tls_disable }}"
+    vault_tls_config_path: "{{ vault_tls_config_path }}"
+    vault_tls_cert_file: "{{ vault_tls_cert_file }}"
+    vault_tls_key_file: "{{ vault_tls_key_file }}"
+    vault_tls_ca_file: "{{ vault_tls_ca_file }}"
+    vault_tls_min_version: "{{ vault_tls_min_version }}"
+    vault_tls_cipher_suites: "{{ vault_tls_cipher_suites }}"
+    vault_tls_prefer_server_cipher_suites: "{{ vault_tls_prefer_server_cipher_suites }}"
+    vault_tls_require_and_verify_client_cert: "{{ vault_tls_require_and_verify_client_cert }}"
+    vault_tls_disable_client_certs: "{{ vault_tls_disable_client_certs }}"
     # vault_x_forwarded_for_authorized_addrs: '{{ vault_x_forwarded_for_authorized_addrs }}'
     # vault_x_forwarded_for_hop_skips: '{{ vault_x_forwarded_for_hop_skips }}'
     # vault_x_forwarded_for_reject_not_authorized: '{{ vault_x_forwarded_for_reject_not_authorized }}'
@@ -267,12 +268,12 @@ vault_azurekeyvault_backend: vault_seal_azurekeyvault.j2
 # gcpkms seal
 vault_gkms: false
 vault_backend_gkms: vault_seal_gcpkms.j2
-vault_gkms_project: ''
-vault_gkms_credentials_src_file: ''
-vault_gkms_credentials: '/home/vault/vault-kms.json'
-vault_gkms_region: 'global'
-vault_gkms_key_ring: 'vault'
-vault_gkms_crypto_key: 'vault_key'
+vault_gkms_project: ""
+vault_gkms_credentials_src_file: ""
+vault_gkms_credentials: "/home/vault/vault-kms.json"
+vault_gkms_region: "global"
+vault_gkms_key_ring: "vault"
+vault_gkms_crypto_key: "vault_key"
 
 # pkcs11 seal
 vault_enterprise_premium_hsm: false
@@ -285,8 +286,8 @@ vault_seal_lib: /lib64/hsmlibrary.so
 vault_seal_pin: 12345
 vault_seal_key_label: vault-hsm-key
 vault_seal_generate_key: false
-vault_seal_key_mechanism: ''
-vault_seal_token_label: ''
+vault_seal_key_mechanism: ""
+vault_seal_token_label: ""
 vault_seal_slot: 0
 vault_softcard_enable: false
 vault_telemetry_enabled: false
