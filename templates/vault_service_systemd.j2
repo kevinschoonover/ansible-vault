@@ -12,6 +12,9 @@ ConditionFileExists={{ vault_main_config }}
 [Service]
 User={{ vault_user }}
 Group={{ vault_group }}
+
+PIDFile={{ vault_run_path }}/vault.pid
+
 ProtectSystem=full
 ProtectHome=read-only
 PrivateTmp=yes
@@ -23,6 +26,7 @@ AmbientCapabilities=CAP_SYSLOG CAP_IPC_LOCK
 {% endif %}
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 NoNewPrivileges=yes
+
 {% if vault_http_proxy -%}
 Environment=HTTP_PROXY={{ vault_http_proxy }}
 {% endif -%}
@@ -32,10 +36,12 @@ Environment=HTTPS_PROXY={{ vault_https_proxy }}
 {% if vault_no_proxy -%}
 Environment=NO_PROXY={{ vault_no_proxy }}
 {% endif -%}
-ExecStartPre=-/bin/mkdir -m 0750 -p {{ vault_run_path }}
-ExecStartPre=/bin/chown -R {{ vault_user }}:{{ vault_group }} {{ vault_run_path }}
+
+ExecStartPre=+/bin/mkdir -m 0750 -p {{ vault_run_path }}
+ExecStartPre=+/bin/chown -R {{ vault_user }}:{{ vault_group }} {{ vault_run_path }}
 ExecStart=/bin/sh -c 'exec {{ vault_bin_path }}/vault server -config={{ vault_config_path if vault_use_config_path else vault_main_config }} -log-level={{ vault_log_level | lower }} {{ vault_exec_output }}'
 ExecReload=/bin/kill --signal HUP $MAINPID
+
 KillMode=process
 KillSignal=SIGINT
 Restart=on-failure
@@ -43,6 +49,7 @@ RestartSec=5
 TimeoutStopSec=30
 StartLimitInterval=60
 StartLimitBurst=3
+
 LimitNOFILE=524288
 LimitNPROC=524288
 LimitMEMLOCK=infinity
