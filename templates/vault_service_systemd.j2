@@ -32,6 +32,8 @@ Environment=HTTPS_PROXY={{ vault_https_proxy }}
 {% if vault_no_proxy -%}
 Environment=NO_PROXY={{ vault_no_proxy }}
 {% endif -%}
+ExecStartPre=-/bin/mkdir -m 0750 -p {{ vault_run_path }}
+ExecStartPre=/bin/chown -R {{ vault_user }}:{{ vault_group }} {{ vault_run_path }}
 ExecStart=/bin/sh -c 'exec {{ vault_bin_path }}/vault server -config={{ vault_config_path if vault_use_config_path else vault_main_config }} -log-level={{ vault_log_level | lower }} {{ vault_exec_output }}'
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
